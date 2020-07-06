@@ -26,7 +26,7 @@ Observa el siguiente diagrama de secuencia:
 
 ![](https://github.com/ucudal/PII_Pipes_Filters/blob/master/Sequence-1.png?raw=true)
 
-Aqui se puede observar cómo una imgen es enviada al primer tramo del pipe y se le aplica un filtro. Luego, esa imagen filtrada, es enviada al siguiente tramo de pipe donde se le aplica un segundo filtro. Finalmente, la imagen es enviada a un PipeNull, el cual no hace nada y finaliza la secuencia. 
+Aqui se puede observar cómo una imagen es enviada al primer tramo del pipe y se le aplica un filtro. Luego, esa imagen filtrada, es enviada al siguiente tramo de pipe donde se le aplica un segundo filtro. Finalmente, la imagen es enviada a un PipeNull, el cual no hace nada y finaliza la secuencia. 
 
 Tu primer desafío será reflejar en código esta secuencia! Para ello te damos este proyecto, el cual contiene un program vacio para que programes el ejemplo. No debería ser necesario agregar nuevas clases para esto.
 
@@ -47,7 +47,7 @@ PictureProvider p = new PictureProvider();
 p.SavePicture("PathToNewImage.jpg");
 ```
 
-Ahora que ya sabemos utilizar el PictureProvider para guardar imagenes, podemos almacenar el resultado de la misma para ver como quedo. 
+Ahora que ya sabemos utilizar el PictureProvider para guardar imágenes, podemos almacenar el resultado de la misma para ver como quedo. 
 Pero que tal si queremos ver los diferentes pasos de la transformación? deberiamos entonces poder utilizar esto en nuestra secuencia de pipes & filters. Cómo haremos eso?
 Que tal si consideramos el persistir una imagen, como un filtro más? En definitiva, esto no es mas que una transformación sobre un IPicture al igual que los demas IFilters, no?
 
