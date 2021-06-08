@@ -24,7 +24,7 @@ C:/
 ## Ejercicio 1
 Observa el siguiente diagrama de secuencia:
 
-![](https://github.com/ucudal/PII_Pipes_Filters/blob/master/Sequence-1.png?raw=true)
+![](./Assets/Sequence-1.png?raw=true)
 
 Aqui se puede observar cómo una imagen es enviada al primer tramo del pipe y se le aplica un filtro. Luego, esa imagen filtrada, es enviada al siguiente tramo de pipe donde se le aplica un segundo filtro. Finalmente, la imagen es enviada a un PipeNull, el cual no hace nada y finaliza la secuencia. 
 
@@ -63,7 +63,7 @@ Hasta ahora hemos realizado secuencias seriales de transformaciones. Que tal si 
 Tu siguiente desafío será entonces crear un Filtro nuevo, el cual tenga un resultado de ejecución utlilizando la CognitiveApi. Si la imagen Filtrada contiene una cara, el resultado será ```true```, de lo contrario ```false```. Luego implementa un "Pipe condicional con bifurcacion", el cual aplica un filtro a la imagen si esta contiene una cara y otro filtro diferente si no contiene una cara. 
 
 Aquí tienes un diagrama de secuencia que ilustra esto:
-![](https://github.com/ucudal/PII_Pipes_Filters/blob/master/Sequence-2.png?raw=true)
+![](./Assets/Sequence-2.png?raw=true)
 
 
 ## Ejercicio Bonus!
@@ -78,7 +78,7 @@ elemento de la matriz es un coeficiente por el cual se debe multiplicar al color
 divisor y un complemento.
 Por ejemplo, para un posible filtro de suavizado, se puede utilizar una matriz (m) como:
 
-![alt text](https://github.com/ucudal/PII_Pipes_Filters/blob/master/matrix.png)
+![alt text](./Assets/matrix.png)
 
 Un divisor de 9 y un complemento de 0.
 ```c#
