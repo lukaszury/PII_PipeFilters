@@ -9,7 +9,7 @@ Esta librería implementa un patrón conocido como Pipes and Filters. Esta arqui
 En este caso particular, utilizaremos el patrón de Pipes and Filters aplicado a imagenes y modificaciones aplicadas a ellas (filtros).
 
 ## Estructura de libreria
-Al igual que en ejercicios anteriores, haremos uso de algunas librerias externas para hacer funcionar este programa. Nuevamente utilizaremos las librerías de TwitterApi (https://github.com/ucudal/PII_TwitterApi) y CognitiveApi (https://github.com/ucudal/PII_CognitiveAPI)
+Al igual que en ejercicios anteriores, haremos uso de algunas librerias externas para hacer funcionar este programa. Nuevamente utilizaremos las librerías de TwitterApi (https://github.com/ucudal/PII_TwitterApi) y CognitiveApi (https://github.com/ucudal/PII_COGNITIVE_API_AWS)
 
 Esta vez, para que no pierdas tiempo con las referencias, ya te damos todo resuelto! Esta librería ya hace referencia a las dos anteriores mencionadas y todo debería funcionar sin que hagas ningún cambio. La única restricción es que todos los repos clonados de github se encuentren en carpetas "hermanas". Por ejemplo, podrias estructurar tus carpetas de la siguiente forma:
 
