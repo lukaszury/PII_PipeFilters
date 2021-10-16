@@ -4,89 +4,98 @@ using CompAndDel;
 
 namespace CompAndDel.Filters
 {
+    /// <summary>
+    /// Un filtro de convolución que retorna la imagen recibida con los bordes suavizados. Basado en
+    /// https://en.wikipedia.org/wiki/Box_blur utilizando el kernel
+    /// https://wikimedia.org/api/rest_v1/media/math/render/svg/91256bfeece3344f8602e288d445e6422c8b8a1c.
+    /// </summary>
     public class FilterBlurConvolution : IFilter
     {
-        protected int[,] matrizParametros;
-        protected int complemento, divisor;
+        protected int[,] kernel;
+        protected int complement, divider;
+
         /// <summary>
-        /// Filtro complejo que suaviza los bordes de una imagen.
+        /// Inicializa una nueva instancia de <c>FilterBlurConvolution</c> asignando el kernel, complemento, y divisor
+        /// según https://wikimedia.org/api/rest_v1/media/math/render/svg/91256bfeece3344f8602e288d445e6422c8b8a1c.
         /// </summary>
-        /// <param name="name">Nombre del objeto</param>
         public FilterBlurConvolution()
         {
-            this.matrizParametros = new int[3, 3];
-            this.complemento = 0;
-            this.divisor = 9;
+            this.kernel = new int[3, 3];
+            this.complement = 0;
+            this.divider = 9;
             for (int x = 0; x < 3; x++)
             {
                 for (int y = 0; y < 3; y++)
                 {
-                    matrizParametros[x, y] = 1;
+                    kernel[x, y] = 1;
                 }
             }
         }
-        /// <summary>
-        /// Recibe una imagen y la retorna con el filtro aplicado.
+
+        /// Procesa la imagen pasada por parametro mediante un kernel, y retorna la imagen resultante.
         /// </summary>
-        /// <param name="image">Imagen a la cual se le va a plicar el filtro</param>
-        /// <returns>Imagen con el filtro aplicado</returns>
+        /// <param name="image">La imagen a la cual se le va a plicar el filtro.</param>
+        /// <returns>La imagen con el filtro aplicado.</returns>
         public IPicture Filter(IPicture image)
         {
-            IPicture imagenFiltrada = image.Clone();
-            Color[,] matrizVecinos;
-            
+            IPicture result = image.Clone();
+            Color[,] sample;
+
             for (int x = 0; x < image.Width; x++)
             {
                 for (int y = 0; y < image.Height; y++)
                 {
-                    matrizVecinos = CrearMatriz(image, x, y);
-                    imagenFiltrada.SetColor(x, y, ObtenerColorFiltrado(matrizVecinos));
+                    sample = CreateSample(image, x, y);
+                    result.SetColor(x, y, GetFilteredColor(sample));
                 }
             }
-            return imagenFiltrada;
+
+            return result;
         }
 
-        private Color ObtenerColorFiltrado(Color[,] matrizVecinos)
+        private Color GetFilteredColor(Color[,] sample)
         {
             int redFinal = 0;
             int greenFinal = 0;
             int blueFinal = 0;
 
-            for (int x = 0; x < matrizVecinos.GetLength(0); x++)
+            for (int x = 0; x < sample.GetLength(0); x++)
             {
-                for (int y = 0; y < matrizVecinos.GetLength(1); y++)
+                for (int y = 0; y < sample.GetLength(1); y++)
                 {
-                    redFinal += matrizVecinos[x, y].R * this.matrizParametros[x, y]; 
-                    greenFinal += matrizVecinos[x, y].G * this.matrizParametros[x, y]; 
-                    blueFinal += matrizVecinos[x, y].B * this.matrizParametros[x, y];        
+                    redFinal += sample[x, y].R * this.kernel[x, y];
+                    greenFinal += sample[x, y].G * this.kernel[x, y];
+                    blueFinal += sample[x, y].B * this.kernel[x, y];
                 }
             }
-            redFinal = Math.Abs((redFinal/this.divisor) + this.complemento);
+
+            redFinal = Math.Abs((redFinal/this.divider) + this.complement);
             redFinal = Math.Min(255, redFinal);
-            
-            greenFinal = Math.Abs((greenFinal / this.divisor) + this.complemento);
+
+            greenFinal = Math.Abs((greenFinal / this.divider) + this.complement);
             greenFinal = Math.Min(255, greenFinal);
-            
-            blueFinal = Math.Abs((blueFinal / this.divisor) + this.complemento);
+
+            blueFinal = Math.Abs((blueFinal / this.divider) + this.complement);
             blueFinal = Math.Min(255, blueFinal);
+
             return Color.FromArgb(redFinal, greenFinal, blueFinal);
         }
 
-        private Color[,] CrearMatriz(IPicture image, int x, int y)
+        private Color[,] CreateSample(IPicture image, int x, int y)
         {
-            Color[,] matriz = new Color[3,3];
-            
-            matriz[0,0] = image.GetColor(Math.Max(x-1, 0), Math.Max(y-1,0));
-            matriz[1,0] = image.GetColor(x, Math.Max(y-1,0));
-            matriz[2,0] = image.GetColor(Math.Min(x+1, image.Width -1), Math.Max(y-1,0));
-            matriz[0,1] = image.GetColor(Math.Max(x-1, 0), y);
-            matriz[1,1] = image.GetColor(x, y);
-            matriz[2,1] = image.GetColor(Math.Min(x+1, image.Width - 1),y);
-            matriz[0,2] = image.GetColor(Math.Max(x-1, 0), Math.Min(y+1,image.Height - 1));
-            matriz[1,2] = image.GetColor(x, Math.Min(y+1,image.Height - 1));
-            matriz[2,2] = image.GetColor(Math.Min(x+1, image.Width - 1), Math.Min(y+1,image.Height - 1));
-                    
-            return matriz;
+            Color[,] sample = new Color[3,3];
+
+            sample[0,0] = image.GetColor(Math.Max(x-1, 0), Math.Max(y-1,0));
+            sample[1,0] = image.GetColor(x, Math.Max(y-1,0));
+            sample[2,0] = image.GetColor(Math.Min(x+1, image.Width -1), Math.Max(y-1,0));
+            sample[0,1] = image.GetColor(Math.Max(x-1, 0), y);
+            sample[1,1] = image.GetColor(x, y);
+            sample[2,1] = image.GetColor(Math.Min(x+1, image.Width - 1),y);
+            sample[0,2] = image.GetColor(Math.Max(x-1, 0), Math.Min(y+1,image.Height - 1));
+            sample[1,2] = image.GetColor(x, Math.Min(y+1,image.Height - 1));
+            sample[2,2] = image.GetColor(Math.Min(x+1, image.Width - 1), Math.Min(y+1,image.Height - 1));
+
+            return sample;
         }
     }
 }

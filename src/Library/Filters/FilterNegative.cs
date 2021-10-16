@@ -1,44 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CompAndDel;
 using System.Drawing;
-using System.Diagnostics;
 
 namespace CompAndDel.Filters
 {
+    /// <summary>
+    /// Un filtro que recibe una imagen y retorna su negativo.
+    /// </remarks>
     public class FilterNegative : IFilter
     {
-        /// <summary>
-        /// Recibe una imagen y la retorna con un filtro del tipo negativo aplicado
+        /// Un filtro que retorna el negativo de la imagen recibida.
         /// </summary>
-        /// <param name="image">Imagen a la cual se le va a plicar el filtro.</param>
-        /// <returns>Imagen con el filtro aplicado</returns>
+        /// <param name="image">La imagen a la cual se le va a aplicar el filtro.</param>
+        /// <returns>La imagen recibida pero en negativo.</returns>
         public IPicture Filter(IPicture image)
         {
-            Debug.Assert(image != null);
-            IPicture negativo = image.Clone();
-            for (int x = 0; x < negativo.Width; x++)
+            IPicture result = image.Clone();
+
+            for (int x = 0; x < result.Width; x++)
             {
-                for (int y = 0; y < negativo.Height; y++)
+                for (int y = 0; y < result.Height; y++)
                 {
-                    Color colorOriginal = negativo.GetColor(x,y);
+                    Color originalColor = result.GetColor(x,y);
 
-                    byte rOriginal = colorOriginal.R;
-                    byte gOriginal = colorOriginal.G;
-                    byte bOriginal = colorOriginal.B;
-                   
-                    byte rNeg = Convert.ToByte(Math.Abs(rOriginal - byte.MaxValue));
-                    byte gNeg = Convert.ToByte(Math.Abs(gOriginal - byte.MaxValue));
-                    byte bNeg = Convert.ToByte(Math.Abs(bOriginal - byte.MaxValue));
+                    byte rOriginal = originalColor.R;
+                    byte gOriginal = originalColor.G;
+                    byte bOriginal = originalColor.B;
 
-                    Color colorNegativo;
-                    colorNegativo = Color.FromArgb(rNeg, gNeg, bNeg);
+                    byte rNegative = Convert.ToByte(Math.Abs(rOriginal - byte.MaxValue));
+                    byte gNegative = Convert.ToByte(Math.Abs(gOriginal - byte.MaxValue));
+                    byte bNegative = Convert.ToByte(Math.Abs(bOriginal - byte.MaxValue));
 
-                    negativo.SetColor(x, y, colorNegativo);
+                    Color negativeColor;
+                    negativeColor = Color.FromArgb(rNegative, gNegative, bNegative);
+
+                    result.SetColor(x, y, negativeColor);
                 }
-            } 
-            return negativo;
+            }
+
+            return result;
         }
     }
 }

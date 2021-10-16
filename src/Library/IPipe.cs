@@ -5,15 +5,15 @@ using System.Text;
 namespace CompAndDel
 {
     /// <summary>
-    /// Una caneria a traves de la cual pasa una imagen.
+    /// Una cañería a traves de la cual pasa una imagen.
     /// </summary>
     public interface IPipe
-    {        
+    {
         /// <summary>
-        /// Envia la imagen a traves de la caneria.
+        /// Envia un imagen a traves de la cañería.
         /// </summary>
-        /// <param name="picture">la imagen a enviar</param>
+        /// <param name="picture">La imagen a enviar.</param>
+        /// <return>La imagen enviada.</return>
         IPicture Send(IPicture picture);
-
     }
 }

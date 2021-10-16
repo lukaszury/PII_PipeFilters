@@ -6,72 +6,81 @@ using System.Drawing;
 
 namespace CompAndDel
 {
+    /// <summary>
+    /// Una implementación de <see cref="IPicture"/> mediante una matriz bidimensional de colores.
+    /// </summary>
     public class Picture : IPicture
     {
-        private Color[,] matrizColores;
-       
+        private Color[,] colorsMatrix;
+
         /// <summary>
-        /// Constructor de imagen
+        /// Crea una nueva instancia de <see cref="Picture"/>.
         /// </summary>
-        /// <param name="width">Ancho en pixels de la imagen</param>
-        /// <param name="height">Altura en pixels de la imagen</param>
+        /// <param name="width">Ancho en pixels de la imagen.</param>
+        /// <param name="height">Altura en pixels de la imagen.</param>
         public Picture(Int32 width, Int32 height)
         {
-            this.matrizColores = new Color[width, height];
-            this.matrizColores.Initialize();
+            this.colorsMatrix = new Color[width, height];
+            this.colorsMatrix.Initialize();
         }
+
         /// <summary>
-        /// Devuelve el ancho en pixels de la imagen
+        /// Devuelve el ancho en pixels de la imagen.
         /// </summary>
-        public Int32 Width 
-        { 
-            get {return this.matrizColores.GetLength(0); }
-        }
-        /// <summary>
-        /// Devuelve la altura en pixels de la imagen
-        /// </summary>
-        public Int32 Height 
+        public Int32 Width
         {
-            get { return this.matrizColores.GetLength(1); } 
+            get {return this.colorsMatrix.GetLength(0); }
         }
+
         /// <summary>
-        /// Devuelve el color que compone la imagen en un pixel en particular en coordenadas cartesianas
+        /// Devuelve la altura en pixels de la imagen.
         /// </summary>
-        /// <param name="x">coordenada x del pixel a seleccionar</param>
-        /// <param name="y">coordenada y del pixel a seleccionar</param>
-        /// <returns>Color del pixel seleccionado</returns>
+        public Int32 Height
+        {
+            get { return this.colorsMatrix.GetLength(1); }
+        }
+
+        /// <summary>
+        /// Devuelve el color que compone la imagen en un pixel en particular en coordenadas cartesianas.
+        /// </summary>
+        /// <param name="x">Coordenada x del pixel a seleccionar.</param>
+        /// <param name="y">Coordenada y del pixel a seleccionar.</param>
+        /// <returns>Color del pixel seleccionado.</returns>
         public Color GetColor(Int32 x, Int32 y)
         {
-            return this.matrizColores[x, y];
+            return this.colorsMatrix[x, y];
         }
+
         /// <summary>
-        /// Setea el color que compone la imagen en un pixel en particular en coordenadas cartesianas
+        /// Asigna el color que compone la imagen en un pixel en particular en coordenadas cartesianas.
         /// </summary>
-        /// <param name="x">coordenada x del pixel a seleccionar</param>
-        /// <param name="y">coordenada y del pixel a seleccionar</param>
-        /// <param name="color">Nuevo color del pixel seleccionado</param>
+        /// <param name="x">Coordenada x del pixel a seleccionar.</param>
+        /// <param name="y">Coordenada y del pixel a seleccionar.</param>
+        /// <param name="color">Nuevo color del pixel seleccionado.</param>
         public void SetColor(Int32 x, Int32 y, Color color)
         {
-            this.matrizColores[x, y] = color;
+            this.colorsMatrix[x, y] = color;
         }
+
         /// <summary>
-        /// Modifica el tamaño de la imagen. Si la nueva imagen es mas grande, los pixels nuevos se colorean en negro
+        /// Modifica el tamaño de la imagen. Si la nueva imagen es mas grande, los pixels nuevos se colorean en negro.
         /// </summary>
-        /// <param name="width">Nuevo ancho de la imagen en pixels</param>
-        /// <param name="height">Nueva altura de la imagen en pixels</param>
+        /// <param name="width">Nuevo ancho de la imagen en pixels.</param>
+        /// <param name="height">Nueva altura de la imagen en pixels.</param>
         public void Resize(Int32 width, Int32 height)
         {
-            Color[,] nuevaMatriz = new Color[width, height];
-            nuevaMatriz.Initialize();
-            
+            Color[,] newMatrix = new Color[width, height];
+            newMatrix.Initialize();
+
             int minX, minY;
             minX = Math.Min(width, this.Width);
             minY = Math.Min(height, this.Height);
+
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    nuevaMatriz[x, y] = Color.Black;
+                    newMatrix[x, y] = Color.Black;
                 }
             }
 
@@ -79,15 +88,16 @@ namespace CompAndDel
             {
                 for (int y = 0; y < minY; y++)
                 {
-                    nuevaMatriz[x, y] = this.matrizColores[x, y];
+                    newMatrix[x, y] = this.colorsMatrix[x, y];
                 }
             }
-            this.matrizColores = nuevaMatriz;
+
+            this.colorsMatrix = newMatrix;
         }
         /// <summary>
-        /// Devuelve un clon de la imagen
+        /// Devuelve un clon de la imagen.
         /// </summary>
-        /// <returns>Clon de la imagen</returns>
+        /// <returns>Clon de la imagen.</returns>
         public IPicture Clone()
         {
             Picture pictureClone = new Picture(this.Width, this.Height);
@@ -95,9 +105,10 @@ namespace CompAndDel
             {
                 for (int y = 0; y < pictureClone.Height; y++)
                 {
-                    pictureClone.SetColor(x, y, this.matrizColores[x,y]);
+                    pictureClone.SetColor(x, y, this.colorsMatrix[x,y]);
                 }
             }
+            
             return pictureClone;
         }
     }

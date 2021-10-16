@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using CompAndDel;
-using System.Diagnostics;
+﻿using System.Drawing;
 
 namespace CompAndDel.Filters
 {
+    /// <summary>
+    /// Un filtro que recibe una imagen y la retorna en escala de grises.
+    /// </remarks>
     public class FilterGreyscale : IFilter
     {
         /// <summary>
-        /// Recibe una imagen y la retorna con un filtro de escala de grises aplicado.
+        /// Un filtro que retorna la imagen recibida con un filtro de escala de grises aplicado.
         /// </summary>
-        /// <param name="image">Imagen a la que se le va a aplicar el filtro.</param>
-        /// <returns>Imagen con el filtro aplicado.</returns>
+        /// <param name="image">La imagen a la cual se le va a aplicar el filtro.</param>
+        /// <returns>La imagen recibida pero en escala de grises.</returns>
         public IPicture Filter(IPicture image)
         {
-            Debug.Assert(image != null);
-            IPicture greyScale = image.Clone();
-            for (int x = 0; x < greyScale.Width; x++)
+            IPicture result = image.Clone();
+
+            for (int x = 0; x < result.Width; x++)
             {
-                for (int y = 0; y < greyScale.Height; y++)
+                for (int y = 0; y < result.Height; y++)
                 {
-                    Color colorOriginal = greyScale.GetColor(x, y);
+                    Color colorOriginal = result.GetColor(x, y);
 
                     byte rOriginal = colorOriginal.R;
                     byte gOriginal = colorOriginal.G;
@@ -31,10 +28,11 @@ namespace CompAndDel.Filters
                     int luma = (int)((rOriginal * 0.3) + (gOriginal * 0.59) + (bOriginal * 0.11));
                     Color colorGris;
                     colorGris = Color.FromArgb(luma, luma, luma);
-                    greyScale.SetColor(x, y, colorGris);
+                    result.SetColor(x, y, colorGris);
                 }
             }
-            return greyScale;
+
+            return result;
         }
     }
 }
