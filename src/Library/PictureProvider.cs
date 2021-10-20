@@ -28,6 +28,7 @@ namespace CompAndDel
                     }
                 }
             }
+            picture.Path = path;
             return picture;
         }
 

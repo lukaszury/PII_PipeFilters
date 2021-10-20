@@ -24,6 +24,8 @@ namespace CompAndDel
             this.colorsMatrix.Initialize();
         }
 
+        public string Path{get;set;}
+
         /// <summary>
         /// Devuelve el ancho en pixels de la imagen.
         /// </summary>
